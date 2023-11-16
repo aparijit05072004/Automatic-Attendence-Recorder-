@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your website's head content goes here -->
+</head>
+<body>
+    <!-- Your website's content goes here -->
+
+    <!-- Password-Protected Form -->
+    <h1>Attendance Recorder</h1>
+    <button id="openLinkButton">Open Link</button>
+    
+    <form id="attendance-form" action="https://script.google.com/macros/s/AKfycby6DL1NW4dX6cIG33tGExMwlMwhQSKIs7WJTOJ2Y1bpZc_NXGNT8sTKPiwaSigrbQo/exec" method="POST">
+        <input type="text" name="Name" placeholder="Name">
+        <input type="email" name="Email" placeholder="Email">
+        <input type="password" name="Password" placeholder="Password">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // JavaScript code for password protection
+        document.getElementById("openLinkButton").addEventListener("click", function() {
+            var linkUrl = "https://script.google.com/macros/s/AKfycby6DL1NW4dX6cIG33tGExMwlMwhQSKIs7WJTOJ2Y1bpZc_NXGNT8sTKPiwaSigrbQo/exec";
+            window.open(linkUrl, "_blank");
+        });
+
+        const form = document.getElementById("attendance-form");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            // Predefined password
+            const predefinedPassword = "your_predefined_password";
+
+            // Get the entered password from the form
+            const password = form.querySelector('input[name="Password"]').value;
+
+            // Check if the entered password matches the predefined password
+            if (password === predefinedPassword) {
+                const formData = new FormData(form);
+                const data = {};
+
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (response.status === 200) {
+                    alert("Form submitted successfully!");
+                    // You can add more handling here if needed
+                } else {
+                    alert("Form submission failed.");
+                }
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
